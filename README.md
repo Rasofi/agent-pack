@@ -2,7 +2,7 @@
 
 A Claude Code plugin that gives every session a small delegation team. Your main session becomes the **orchestrator**: it plans the change, writes acceptance criteria and hands the work to two **leads** on Opus, who run **workers** on Sonnet (code, tests, review) and Haiku (docs, housekeeping). A slower **deep reviewer** on Fable is called only for risky changes. Install it once: no server, no tokens, nothing to deploy.
 
-**Status: 0.11.0.** The team (14 agent files), plus `/pack` (what the session and its agents are doing) and `/handoff` / `/inbox` (handoffs between repos). Cloud sessions need one extra setup line, see [Install](#install).
+**Status: 0.12.0.** The team (14 agent files), plus `/pack` (what the session and its agents are doing) and `/handoff` / `/inbox` (handoffs between repos). Cloud sessions need one extra setup line, see [Install](#install).
 
 ## The team
 
@@ -56,9 +56,12 @@ VERDICT: GO WITH WARNINGS — /health works and is tested; one note from the sec
 
 ⚠ Heads up: /health shows the app version to anyone; drop that field if it matters to you
 
+ROUTE: feature — a new endpoint
 PLAN: one route in server.js plus tests and a README line; no new dependencies
-ACCEPTANCE CRITERIA: 3/4 verified; AC4 static-only (needs your deployed URL)
+ACCEPTANCE CRITERIA: 3/4 verified (AC1, AC2, AC3); AC4 static-only (needs your deployed URL)
+ASSUMPTIONS: A1 the response body is `{"status": "ok", "version": ...}`
 UNVERIFIED: curl https://<your host>/health after the next deploy
+RESIDUAL RISK: /health shows the app version; any caller can read it
 AGENTS RUN: build-lead — pass, review-lead — warn, docs-writer — pass, scout — pass
 FOLLOW-UPS: 1 draft waiting for your approval
 Manual steps: none

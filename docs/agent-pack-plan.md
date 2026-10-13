@@ -61,7 +61,7 @@ Layer 1 is the product. Layer 2 makes it nicer and safer, and nothing in layer 1
 
 | Role | Level | Default model | Tools | Job |
 | --- | --- | --- | --- | --- |
-| `orchestrator` | main session | `inherit` (your `/model` choice) | everything except Edit, Write, NotebookEdit (so it keeps the session's GitHub and other tools) | clarifies (max 3 questions), plans, writes acceptance criteria, routes, merges reports, gives the verdict |
+| `orchestrator` | main session | `inherit` (your `/model` choice) | everything except Edit, Write, NotebookEdit (so it keeps the session's GitHub and other tools) | asks one decisive question at a time, plans, writes acceptance criteria, routes, merges reports, gives the verdict |
 | `build-lead` | lead | `opus` | Agent, Read, Grep, Glob, Bash, Write (scratch only) | freezes the contract, splits briefs, runs builders, checks scope, merges |
 | `review-lead` | lead | `opus` | Agent, Read, Grep, Glob, Bash | picks the review roles, runs them in parallel, merges one verdict |
 | `coder` | worker | `sonnet` | Read, Grep, Glob, Bash, Edit, Write | one scoped change from a brief |
