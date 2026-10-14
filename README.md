@@ -2,7 +2,7 @@
 
 A Claude Code plugin that gives every session a small delegation team. Your main session becomes the **orchestrator**: it plans the change, writes acceptance criteria and hands the work to two **leads** on Opus, who run **workers** on Sonnet (code, tests, review) and Haiku (docs, housekeeping). A slower **deep reviewer** on Fable is called only for risky changes. Install it once: no server, no tokens, nothing to deploy.
 
-**Status: 0.12.0.** The team (14 agent files), plus `/pack` (what the session and its agents are doing) and `/handoff` / `/inbox` (handoffs between repos). Cloud sessions need one extra setup line, see [Install](#install).
+**Status: 0.12.1.** The team (14 agent files), plus `/pack` (what the session and its agents are doing) and `/handoff` / `/inbox` (handoffs between repos). Cloud sessions need one extra setup line, see [Install](#install).
 
 ## The team
 
