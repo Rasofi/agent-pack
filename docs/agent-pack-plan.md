@@ -1,6 +1,6 @@
 # Delegation team plugin: plan
 
-Status: phase 1 built (0.8.0, 2026-10-07): the 13 agent files, `settings.json`, the profile template and `scripts/check-agents.mjs` in CI. Phases 2-6 open.
+Status: the current version is in [`plugin.json`](../.claude-plugin/plugin.json) and the README [Status](../README.md) line. Phase 1 is built (first shipped in 0.8.0, 2026-10-07): the agent files (14 now, with `coder-fast`), `settings.json`, the profile template and `scripts/check-agents.mjs` in CI. Phase 2: `scripts/smoke-nesting.sh` is not in the repo and the repo does not record a real cloud-session check of the depth line. For phases 3-6 the repo does not show whether the plan's "done when" column is met; the table below is the plan, not a progress record.
 
 ## Answer: yes, a plain plugin does it
 
@@ -37,7 +37,7 @@ Still open: confirm that line in a real cloud session (10 minutes, phase 2).
 
 | Layer | What | Needs |
 | --- | --- | --- |
-| 1. Plain plugin | `agents/*.md` (13 roles), `settings.json` (`agent`), `templates/project-profile.md` | nothing: works even where hooks/mods are turned off |
+| 1. Plain plugin | `agents/*.md` (14 roles), `settings.json` (`agent`), `templates/project-profile.md` | nothing: works even where hooks/mods are turned off |
 | 2. Mod extras | model per tier from options, spawn limits, git guards, `/pack` role view | mods allowed (Claude Code 2.1.287+) |
 
 Layer 1 is the product. Layer 2 makes it nicer and safer, and nothing in layer 1 depends on it.
@@ -57,7 +57,7 @@ Layer 1 is the product. Layer 2 makes it nicer and safer, and nothing in layer 1
 11. **Security fixes get a second review** after every fix round.
 12. **Deterministic tools first:** reviewers judge lint/typecheck/test/audit output instead of re-deriving it.
 
-## The roster (13 agent files)
+## The roster (14 agent files)
 
 | Role | Level | Default model | Tools | Job |
 | --- | --- | --- | --- | --- |
@@ -152,7 +152,7 @@ Every role prompt carries the same blocks, kept identical by a check script:
 ```
 .claude-plugin/plugin.json, marketplace.json   (existing)
 settings.json                 { "agent": "agent-pack:orchestrator" }
-agents/                       13 role files
+agents/                       14 role files
 templates/project-profile.md
 scripts/check-agents.mjs      invariant checks, run in CI (plain Node, no dependencies)
 scripts/smoke-nesting.sh      the three-level test from this plan, for anyone to rerun
