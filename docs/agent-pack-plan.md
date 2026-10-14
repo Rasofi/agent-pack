@@ -1,6 +1,6 @@
 # Delegation team plugin: plan
 
-Status: the current version is in [`plugin.json`](../.claude-plugin/plugin.json) and the README [Status](../README.md) line. Phase 1 is built (first shipped in 0.8.0, 2026-10-07): the agent files (14 now, with `coder-fast`), `settings.json`, the profile template and `scripts/check-agents.mjs` in CI. Phase 2: `scripts/smoke-nesting.sh` is not in the repo and the repo does not record a real cloud-session check of the depth line. For phases 3-6 the repo does not show whether the plan's "done when" column is met; the table below is the plan, not a progress record.
+Status: the current version is in [`plugin.json`](../.claude-plugin/plugin.json) and the README [Status](../README.md) line. Phase 1 is built: the agent files (14 now, with `coder-fast`), `settings.json`, the profile template and `scripts/check-agents.mjs` in CI. Phase 2 is done in practice: a lead started workers in real cloud sessions, confirmed by the person with the depth line set to 3. `scripts/smoke-nesting.sh` was never written; it is dropped from the plan. Phase 3 is not built as code: only prompt rules (at most 3 workers per wave in `agents/build-lead.md` and `agents/orchestrator.md`, at most 4 agents at once in `agents/orchestrator.md` step 8, scratch dirs); `hooks/spawn.ts` only holds a lead's background worker in the foreground. Phase 4 is not built as code: its git rules exist only as prompt rules in `agents/orchestrator.md` step 12. Phase 5 is partly done: `/pack` lists each agent's type and live status plus counts and a status line, but no model or parent per agent. Phase 6 is partly done: real trials ran; no tokens-per-tier note is recorded. The table below is the plan, not a progress record; its Stop point column gives the status.
 
 ## Answer: yes, a plain plugin does it
 
@@ -19,7 +19,7 @@ Installing one plugin gives a session three levels of agents: **orchestrator →
 { "env": { "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "3" } }
 ```
 
-Still open: confirm that line in a real cloud session (10 minutes, phase 2).
+Confirmed by the person in a real cloud session: a lead started workers with the depth line set to 3.
 
 ## How people install it (target)
 
@@ -38,9 +38,9 @@ Still open: confirm that line in a real cloud session (10 minutes, phase 2).
 | Layer | What | Needs |
 | --- | --- | --- |
 | 1. Plain plugin | `agents/*.md` (14 roles), `settings.json` (`agent`), `templates/project-profile.md` | nothing: works even where hooks/mods are turned off |
-| 2. Mod extras | model per tier from options, spawn limits, git guards, `/pack` role view | mods allowed (Claude Code 2.1.287+) |
+| 2. Mod extras (planned, not built) | model per tier from options, spawn limits, git guards, `/pack` role view | mods allowed (Claude Code 2.1.287+) |
 
-Layer 1 is the product. Layer 2 makes it nicer and safer, and nothing in layer 1 depends on it.
+Layer 1 is the product. Layer 2 (planned) would make it nicer and safer, and nothing in layer 1 depends on it.
 
 ## Design rules
 
@@ -84,7 +84,11 @@ Plus Claude Code's built-in `Explore` for finding files before a brief.
 
 ## Models per tier
 
-Layer 1 sets a model in each agent file (table above). Layer 2 adds plugin options so one setting moves a whole tier; the mod applies it each time an agent starts (`agent.spawn` hook).
+> Layer 2 below (plugin options per tier, spawn limits, git guards, the /pack role view, per-tier token totals) is planned, not built; today only prompt rules and `hooks/spawn.ts` exist.
+
+Layer 1 sets a model in each agent file (table above). Layer 2 would add plugin options so one setting moves a whole tier; the mod would apply it each time an agent starts (`agent.spawn` hook).
+
+Planned options:
 
 | Option | Default | Roles |
 | --- | --- | --- |
@@ -155,9 +159,9 @@ settings.json                 { "agent": "agent-pack:orchestrator" }
 agents/                       14 role files
 templates/project-profile.md
 scripts/check-agents.mjs      invariant checks, run in CI (plain Node, no dependencies)
-scripts/smoke-nesting.sh      the three-level test from this plan, for anyone to rerun
-hooks/                        existing mod code; layer 2 additions
-test/                         existing + layer 2 tests
+scripts/smoke-nesting.sh      (dropped, not built) the three-level test from this plan
+hooks/                        existing mod code (layer 2 planned, not built)
+test/                         existing + layer 2 tests (layer 2 planned, not built)
 ```
 
 ## Checks
@@ -168,19 +172,19 @@ test/                         existing + layer 2 tests
   - every body has the report block and the shared rule texts, byte-identical
   - no machine paths, hostnames or named private tools (a regex list)
 - **`claude plugin validate --strict`** (existing CI) also covers `settings.json`.
-- **`scripts/smoke-nesting.sh`** (manual, needs a logged-in `claude`): runs orchestrator → lead → worker and prints each level's model.
-- **Layer 2 engine tests** (`claude plugin test`): tier options reach the spawn, the fifth parallel spawn is refused, a push to `main` is denied.
+- **`scripts/smoke-nesting.sh`** (dropped, not built): was to run orchestrator → lead → worker and print each level's model.
+- **Layer 2 engine tests** (planned, not written; `claude plugin test`): tier options reach the spawn, the fifth parallel spawn is refused, a push to `main` is denied.
 
 ## Phases
 
 | # | What | Effort | Done when | Stop point |
 | --- | --- | --- | --- | --- |
 | 1 | Layer 1: 13 agent files, `settings.json`, profile template, `check-agents.mjs` in CI, README install steps | 2.5 d | check passes; locally, "add a /health route" runs orchestrator → build-lead → coder/test-writer → review-lead → verifier | ✅ usable locally |
-| 2 | Cloud: the depth line confirmed in a real cloud session; `smoke-nesting.sh` | 0.5 d | the same task runs three levels in a cloud session | ✅ usable everywhere |
-| 3 | Layer 2: tier options, parallel cap (4), per-agent scratch dirs | 1 d | engine tests pass; changing `buildModel` moves all builders | |
-| 4 | Layer 2: git guards (protected-branch push, commit on merged branch, workers never commit) + adversarial tests + second security review | 1.5 d | guard command table passes; review finds no bypass | ✅ safe defaults |
-| 5 | Layer 2: `/pack` shows role, model, parent and STATUS per agent | 0.5-1 d | a real run shows the tree and verdicts | |
-| 6 | Live trial on one real repo; tune tiers | 0.5 d | one feature end to end; tokens per tier noted | ✅ v1.0 |
+| 2 | Cloud: the depth line confirmed in a real cloud session; `smoke-nesting.sh` | 0.5 d | the same task runs three levels in a cloud session | ✅ usable everywhere (`smoke-nesting.sh` dropped) |
+| 3 | Layer 2: tier options, parallel cap (4), per-agent scratch dirs | 1 d | engine tests pass; changing `buildModel` moves all builders | not built as code (prompt rules only) |
+| 4 | Layer 2: git guards (protected-branch push, commit on merged branch, workers never commit) + adversarial tests + second security review | 1.5 d | guard command table passes; review finds no bypass | not built as code (prompt rules only: `agents/orchestrator.md` step 12) |
+| 5 | Layer 2: `/pack` shows role, model, parent and STATUS per agent | 0.5-1 d | a real run shows the tree and verdicts | partly (`/pack` lists each agent's type and live status plus counts and a status line, but no model or parent per agent) |
+| 6 | Live trial on one real repo; tune tiers | 0.5 d | one feature end to end; tokens per tier noted | partly (real trials ran; no tokens-per-tier note) |
 
 Total about 6.5-7 working days. Phases 1-2 alone (about 3 days) deliver the core: install, and three levels work.
 
@@ -188,8 +192,8 @@ Total about 6.5-7 working days. Phases 1-2 alone (about 3 days) deliver the core
 
 - ⚠ **Nesting depends on the limit the host sets.** The default allows it; cloud sessions turn it off until the settings line is added. If a future host ignores settings `env`, the orchestrator still works, but leads have to do their workers' jobs (each lead prompt carries that fallback: "if you can't start agents, return a delegation plan for the orchestrator").
 - **The plugin's `agent` setting applies to every session where the plugin is enabled.** That's the point, but it surprises people who install it for one repo; the README says how to opt out.
-- **Bash is a wide tool:** review roles could still write files through it. The prompts forbid it; layer 2 can only detect it afterwards.
-- **Cost:** `opus` leads plus parallel workers add up. The parallel cap, `/pack` token totals per tier, and `planModel: sonnet` keep it in check.
+- **Bash is a wide tool:** review roles could still write files through it. The prompts forbid it; planned layer 2 could only detect it afterwards.
+- **Cost:** `opus` leads plus parallel workers add up. Planned to keep it in check (not built): the parallel cap, per-tier token totals in `/pack`, and `planModel: sonnet`.
 - **Mod API is early access** (layer 2 only): pinned in CI, re-tested on each Claude Code bump.
 
 ## Not in this plan
@@ -202,6 +206,6 @@ Total about 6.5-7 working days. Phases 1-2 alone (about 3 days) deliver the core
 
 1. The orchestrator is the main session through the plugin's `settings.json`, on your own model (`inherit`).
 2. 12 roles under it: 2 leads on `opus`, 9 workers (`sonnet` for code and review, `haiku` for docs and housekeeping, never for coding), and `deep-reviewer` on `fable`, called when needed.
-3. Agent files are the source of truth; layer 2 only overrides models and adds limits.
+3. Agent files are the source of truth; planned layer 2 would only override models and add limits.
 4. Cloud nesting through one settings line, documented in the README.
 5. Scout's drafts are shown to you, not filed automatically.
