@@ -27,4 +27,4 @@ A Claude Code plugin that gives any session a three-level delegation team (orche
 ```
 
 ## Current Task
-Phase 1 (layer 1) built in 0.8.0 (14 agent files since 0.11.0, with coder-fast): the plugin `settings.json`, the profile template and `check-agents.mjs` in CI. Next: phase 2, confirm the depth line in a real cloud session and add `scripts/smoke-nesting.sh`. Plan and phases: `docs/agent-pack-plan.md`.
+Phase 1 (layer 1) is built (first shipped in 0.8.0; 14 agent files with `coder-fast`): the plugin `settings.json`, the profile template and `check-agents.mjs` in CI. The current version is in `.claude-plugin/plugin.json` and the README "Status" line. Phase 2 (confirm the depth line in a real cloud session, add `scripts/smoke-nesting.sh`) has no script in the repo and no recorded cloud check; the repo does not show whether phases 3-6 are done. Plan and phases: `docs/agent-pack-plan.md`.
