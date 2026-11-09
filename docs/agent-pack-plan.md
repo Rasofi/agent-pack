@@ -80,7 +80,7 @@ Plus Claude Code's built-in `Explore` for finding files before a brief.
 - Review roles (`verifier`, `security-reviewer`, `compliance-reviewer`, `deep-reviewer`) and `scout`/`housekeeper` never change tracked files; they write only under a scratch dir.
 - **No `haiku` for coding:** `coder` and `test-writer` stay on `sonnet`. `haiku` does docs and housekeeping (`docs-writer`, `scout`, `housekeeper`); the docs self-check (every command and path looked up in the repo) catches invented commands.
 - **`fable` only on call:** `deep-reviewer` is the one Fable role and runs only when the flow below asks for it, so its cost stays bounded.
-- Aliases follow new releases: today `opus` is Opus 5.5, `sonnet` Sonnet 5.5, `haiku` Haiku 4.5 and `fable` Fable 5.1. Pin a full model id in the options to freeze a version.
+- Aliases follow new releases: today `opus` is Opus 5.5, `sonnet` Sonnet 5.5, `haiku` Haiku 4.5 and `fable` Fable 5.2. Pin a full model id in the options to freeze a version.
 
 ## Models per tier
 
